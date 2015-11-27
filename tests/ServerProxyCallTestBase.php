@@ -63,7 +63,7 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         $res1 = $this->serverproxy->_call("test_dict");
         $res2 = $this->serverproxy->test_dict();
         $this->assertEquals($res1, $res2);
-        $this->assertEquals(['int' => 123, 'list' => [1, 2, 3]], $res2);
+        $this->assertEquals(array('int' => 123, 'list' => array(1, 2, 3)), $res2);
     }
     public function testMethodParam() {
         $param = ['int' => 123, 'list' => [1, 2, 3], 'string', 'äöüß€'];
@@ -80,12 +80,12 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         $multicall->test_dict();
         $res = $multicall();
         $this->assertEquals(
-            [
-                ["called test_string"],
-                [NULL],
-                [['called test_list']],
-                [['int' => 123, 'list' => [1, 2, 3]]]
-            ],
+            array(
+                array("called test_string"),
+                array(NULL),
+                array(array('called test_list')),
+                array(array('int' => 123, 'list' => array(1, 2, 3)))
+            ),
             $res);
     }
     /**

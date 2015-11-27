@@ -238,7 +238,7 @@ class ServerProxy
     public function _call($method, $args=array()) {
 
         // request message body
-        $request = xmlrpc_encode_request($method, $args, ["encoding" => "UTF-8"]);
+        $request = xmlrpc_encode_request($method, $args, array("encoding" => "UTF-8"));
         $header = sprintf($this->_header, strlen($request));
 
         // open socket
@@ -458,7 +458,7 @@ class Multicall
      * @throws HttpResponseException
      */
     public function __invoke() {
-        return $this->_proxy->_call("system.multicall", [$this->_callstack]);
+        return $this->_proxy->_call("system.multicall", array($this->_callstack));
     }
 }
 
