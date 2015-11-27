@@ -77,9 +77,9 @@ class ServerProxy
      * @var array map known schemes to transport and default port
      */
     private $_TRANSPORTS = array(
-        "http"      => ["tcp",  80],
-        "https"     => ["ssl", 443],
-        "http+unix" => ["unix",  0]
+        "http"      => array("tcp",  80),
+        "https"     => array("ssl", 443),
+        "http+unix" => array("unix",  0)
         );
 
     /**
