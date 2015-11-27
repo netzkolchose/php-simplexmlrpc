@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit>
+<testsuite name="SimpleXmlRpc">
+    <file>tests/ServerProxyStartupTest.php</file>
+    <file>tests/MulticallTest.php</file>
+    <file>tests/ServerProxyCallTest_http.php</file>
+    <file>tests/ServerProxyCallTest_https.php</file>
+    <file>tests/ServerProxyCallTest_unix.php</file>
+    <file>tests/ErrorTest.php</file>
+</testsuite>
+</phpunit>
