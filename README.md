@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/netzkolchose/php-simplexmlrpc.svg?branch=master)](https://travis-ci.org/netzkolchose/php-simplexmlrpc)
+[![Coverage Status](https://coveralls.io/repos/netzkolchose/php-simplexmlrpc/badge.svg?branch=master&service=github)](https://coveralls.io/github/netzkolchose/php-simplexmlrpc?branch=master)
+
 Simple XMLRPC client library for PHP.
 
 Supports:
