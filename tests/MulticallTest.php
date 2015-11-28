@@ -19,7 +19,7 @@ class MulticallTest extends PHPUnit_Framework_TestCase
     public function testMulticallDeepCallstack() {
         $s = new \SimpleXmlRpc\ServerProxy("http://localhost");
         $multicall = new \SimpleXmlRpc\Multicall($s);
-        $multicall->_call("a.b.c", []);
+        $multicall->_call("a.b.c", array());
         $multicall->a->b->c();
         $multicall->system->listMethods();
         $this->assertEquals(
