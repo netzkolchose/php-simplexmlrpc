@@ -67,7 +67,7 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
     }
     public function testMethodParam() {
         $param = array('int' => 123, 'list' => array(1, 2, 3), 'string', 'äöüß€');
-        $res1 = $this->serverproxy->_call("test_param", [$param]);
+        $res1 = $this->serverproxy->_call("test_param", array($param));
         $res2 = $this->serverproxy->test_param($param);
         $this->assertEquals($res1, $res2);
         $this->assertEquals($param, $res2);
