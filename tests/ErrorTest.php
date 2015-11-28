@@ -16,7 +16,7 @@ class ErrorTest extends PHPUnit_Framework_TestCase
      * @expectedException \SimpleXmlRpc\SimpleXmlRpcException
      */
     public function testHeaderParseError() {
-        \SimpleXmlRpc\ServerProxy::_parse_header(["Test" => "abc", "fail"]);
+        \SimpleXmlRpc\ServerProxy::_parse_header(array("Test" => "abc", "fail"));
     }
 
     //public function testGzip() {
