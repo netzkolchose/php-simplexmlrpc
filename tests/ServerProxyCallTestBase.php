@@ -57,7 +57,7 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         $res1 = $this->serverproxy->_call("test_list");
         $res2 = $this->serverproxy->test_list();
         $this->assertEquals($res1, $res2);
-        $this->assertEquals(['called test_list'], $res2);
+        $this->assertEquals(array('called test_list'), $res2);
     }
     public function testMethodDict() {
         $res1 = $this->serverproxy->_call("test_dict");
