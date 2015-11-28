@@ -10,10 +10,10 @@ class MulticallTest extends PHPUnit_Framework_TestCase
         $multicall->_call("test_string", []);
         $multicall->test_string();
         $this->assertEquals(
-            [
-                ["methodName" => "test_string", "params" => []],
-                ["methodName" => "test_string", "params" => []],
-            ],
+            array(
+                array("methodName" => "test_string", "params" => array()),
+                array("methodName" => "test_string", "params" => array()),
+            ),
             $multicall->_callstack);
     }
     public function testMulticallDeepCallstack() {
@@ -23,11 +23,11 @@ class MulticallTest extends PHPUnit_Framework_TestCase
         $multicall->a->b->c();
         $multicall->system->listMethods();
         $this->assertEquals(
-            [
-                ["methodName" => "a.b.c", "params" => []],
-                ["methodName" => "a.b.c", "params" => []],
-                ["methodName" => "system.listMethods", "params" => []]
-            ],
+            array(
+                array("methodName" => "a.b.c", "params" => array()),
+                array("methodName" => "a.b.c", "params" => array()),
+                array("methodName" => "system.listMethods", "params" => array())
+            ),
             $multicall->_callstack);
     }
 }
