@@ -259,15 +259,15 @@ class ServerProxy
             $response_header[] = array_map("trim", explode(":", $line, 2));
         }
 
+        // parse header
+        $this->_last_header = ServerProxy::_parse_header($response_header);
+
         // read message body
         $content = "";
-        while (!feof($sock)) {
+        while (strlen($content) < $this->_last_header['Content-Length']) {
             $content .= fgets($sock);
         }
         fclose($sock);
-
-        // parse header
-        $this->_last_header = ServerProxy::_parse_header($response_header);
 
         // gzip encoding
         if (isset($this->_last_header["Content-Encoding"])
