@@ -6,14 +6,12 @@ php:
   - '7.1'
 
 before_install:
-- phpenv config-add memory.ini
-- composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
-- composer install --dev
+  - composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
+  - composer install --dev
 
 script:
   - mkdir -p build/logs
-  - SERVERLOGS=1 ./vendor/bin/phpunit --debug
   - ./vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 
 after_script:
-- php vendor/bin/coveralls -v
+  - php vendor/bin/coveralls -v
