@@ -279,7 +279,7 @@ class ServerProxy
         // gzip encoding
         if (isset($this->_last_header["Content-Encoding"])
             && $this->_last_header["Content-Encoding"] == "gzip") {
-            $content = gzdecode($content);
+                $content = gzdecode($content);
         }
 
         $this->_last_content = $content;

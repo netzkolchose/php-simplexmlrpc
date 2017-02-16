@@ -5,13 +5,15 @@ php:
   - '7.0'
   - '7.1'
 
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction
+before_install:
+- phpenv config-add memory.ini
+- composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
+- composer install --dev
 
 script:
   - mkdir -p build/logs
-  - phpunit --configuration ./phpunit.xml --coverage-clover build/logs/clover.xml
+  - SERVERLOGS=1 ./vendor/bin/phpunit --debug
+  - ./vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 
 after_script:
-  - php vendor/bin/coveralls -v
+- php vendor/bin/coveralls -v
