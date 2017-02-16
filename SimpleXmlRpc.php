@@ -51,6 +51,8 @@ class ServerProxy
 
     /**
      * Converts HTTP header entries to "entry" => "value" mapping.
+     * Also caps all word part of a header name
+     * (e.g. content-length to Content-Length)
      *
      * @param array $h
      * @return array
@@ -61,7 +63,12 @@ class ServerProxy
         try {
             $header_size = count($h);
             for ($i = 1; $i < $header_size; $i++) {
-                $header[$h[$i][0]] = $h[$i][1];
+                // capitalize words
+                $words = explode("-", $h[$i][0]);
+                $Words = array();
+                foreach ($words as $word)
+                    $Words[] = ucwords($word);
+                $header[implode("-", $Words)] = $h[$i][1];
             }
             $first_line = explode(" ", $h[0][0], 3);
             $header["protocol"] = $first_line[0];
