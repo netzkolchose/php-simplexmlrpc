@@ -292,13 +292,19 @@ class ServerProxy
             );
         }
 
-        // parse content - TODO: multicall Fault
         $result = xmlrpc_decode($content);
-        if (is_array($result) && xmlrpc_is_fault($result)) {
-            throw new Fault($result['faultString'], $result['faultCode']);
+
+        if ($method == 'system.multicall') {
+            return new MultiCallResultIterator($result);
+        } else {
+            if (is_array($result) && xmlrpc_is_fault($result))
+                throw new Fault($result['faultString'], $result['faultCode']);
         }
+
         return $result;
     }
+
+
 
     /**
      * Call remote method for unkown local method.
@@ -322,6 +328,53 @@ class ServerProxy
      */
     public function __get($name) {
         return new AttributeProxy($name, $this);
+    }
+}
+
+/**
+ * Class MultiCallResultIterator
+ *
+ * Iterator for a multicall results. The iterator checks for fault conditions
+ * of a single result. Faulty results get replaced by a Fault exception object,
+ * that will be thrown lazy by `current()` (e.g. in a foreach loop).
+ * You can avoid that behavior by accessing the underlying array directly
+ * with `rawData()` and testing the result against the Fault class yourself.
+ *
+ * @package SimpleXmlRpc
+ */
+class MultiCallResultIterator implements \Iterator {
+    private $position = 0;
+    private $data = array();
+
+    public function __construct($results) {
+        foreach ($results as $result) {
+            if (is_array($result) && xmlrpc_is_fault($result))
+                $this->data[] = new Fault($result['faultString'], $result['faultCode']);
+            else
+                $this->data[] = $result;
+        }
+        $this->position = 0;
+    }
+    public function rawData() {
+        return $this->data;
+    }
+    public function rewind() {
+        $this->position = 0;
+    }
+    public function current() {
+        $result = $this->data[$this->position];
+        if ($result instanceof Fault)
+            throw $result;
+        return $result;
+    }
+    public function key() {
+        return $this->position;
+    }
+    public function next() {
+        ++$this->position;
+    }
+    public function valid() {
+        return isset($this->data[$this->position]);
     }
 }
 
