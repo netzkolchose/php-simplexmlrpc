@@ -85,7 +85,7 @@ class ServerProxy
      */
     private $_TRANSPORTS = array(
         "http"      => array("tcp",  80),
-        "https"     => array("ssl", 443),
+        "https"     => array("tls", 443),
         "http+unix" => array("unix",  0)
         );
 
@@ -154,13 +154,15 @@ class ServerProxy
      */
     public $_last_content = "";
 
+    public $ctx = NULL;
+
     /**
      * Create a new ServerProxy object.
      *
      * @param string $url
      * @throws InvalidUrlException
      */
-    function __construct($url) {
+    function __construct($url, $ctx=NULL) {
         $this->_url_original = $url;
 
         // get url parts
@@ -214,22 +216,17 @@ class ServerProxy
         }
 
         // create cached header, no port for unix transport
-        if ($this->_transport == "unix") {
-            $this->_header = sprintf(ServerProxy::HEADER_BLUEPRINT,
-                $this->_path,
-                $this->_host,
-                "");
-        } else {
-            $this->_header = sprintf(ServerProxy::HEADER_BLUEPRINT,
-                $this->_path,
-                $this->_host,
-                ":".$this->_port);
-        }
+        $this->_header = sprintf(ServerProxy::HEADER_BLUEPRINT,
+            $this->_path,
+            $this->_host,
+            ($this->_transport == "unix") ? "" : ":".$this->_port);
 
         if ($this->_authtoken) {
             $this->_header .= "Authorization: Basic " . $this->_authtoken . "\r\n";
         }
         $this->_header .= "Content-Length: %d\r\n";
+
+        $this->ctx = $ctx;
     }
 
     /**
@@ -249,7 +246,14 @@ class ServerProxy
         $header = sprintf($this->_header, strlen($request));
 
         // open socket
-        $sock = @fsockopen($this->_transport_url, $this->_port, $errno, $errstr, 30);
+        $url = $this->_transport_url;
+        if ($this->_transport != "unix")
+            $url .= ":".$this->_port;
+        if ($this->ctx)
+            $sock = stream_socket_client(
+                $url, $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $this->ctx);
+        else
+            $sock = stream_socket_client($url, $errno, $errstr, 30);
         if (!$sock) {
             throw new ConnectionError("could not connect to '" . $this->_url_original . "'");
         }

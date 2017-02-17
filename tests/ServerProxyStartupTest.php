@@ -36,21 +36,21 @@ class ServerProxyStartUpTest extends PHPUnit_Framework_TestCase
     }
     public function testHttpsUrlDefault() {
         $s = new \SimpleXmlRpc\ServerProxy("https://example.com");
-        $this->assertEquals("ssl", $s->_transport);
+        $this->assertEquals("tls", $s->_transport);
         $this->assertEquals(NULL, $s->_authtoken);
         $this->assertEquals("example.com", $s->_host);
         $this->assertEquals(443, $s->_port);
         $this->assertEquals("/", $s->_path);
-        $this->assertEquals("ssl://example.com", $s->_transport_url);
+        $this->assertEquals("tls://example.com", $s->_transport_url);
     }
     public function testHttpsUrlFull() {
         $s = new \SimpleXmlRpc\ServerProxy("https://name:password@example.com:123/path/to/xmlrpc?a=1&b=test#fragment");
-        $this->assertEquals("ssl", $s->_transport);
+        $this->assertEquals("tls", $s->_transport);
         $this->assertEquals(base64_encode("name:password"), $s->_authtoken);
         $this->assertEquals("example.com", $s->_host);
         $this->assertEquals(123, $s->_port);
         $this->assertEquals("/path/to/xmlrpc?a=1&b=test#fragment", $s->_path);
-        $this->assertEquals("ssl://example.com", $s->_transport_url);
+        $this->assertEquals("tls://example.com", $s->_transport_url);
     }
     public function testUnixUrlDefault() {
         $s = new \SimpleXmlRpc\ServerProxy("http+unix://".urlencode("/path/to/sock.file"));

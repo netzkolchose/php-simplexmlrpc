@@ -42,14 +42,18 @@ class ServerProxyCallTest_https extends ServerProxyCallTestBase
      * @expectedExceptionCode 404
      */
     public function testError404() {
-        $s = new \SimpleXmlRpc\ServerProxy("https://localhost:8080/wrong/path?with=params");
+        $opts = array("ssl" => array("verify_peer" => false));
+        $ctx = stream_context_create($opts);
+        $s = new \SimpleXmlRpc\ServerProxy("https://localhost:8080/wrong/path?with=params", $ctx);
         $s->system->listMethods();
     }
 
     public $serverproxy = NULL;
 
     public function setUp() {
-        $this->serverproxy = new \SimpleXmlRpc\ServerProxy("https://localhost:8080");
+        $opts = array("ssl" => array("verify_peer" => false));
+        $ctx = stream_context_create($opts);
+        $this->serverproxy = new \SimpleXmlRpc\ServerProxy("https://localhost:8080", $ctx);
     }
 
     public static function tearDownAfterClass() {
