@@ -351,7 +351,7 @@ class MultiCallResultIterator implements \Iterator {
             if (is_array($result) && xmlrpc_is_fault($result))
                 $this->data[] = new Fault($result['faultString'], $result['faultCode']);
             else
-                $this->data[] = $result;
+                $this->data[] = $result[0];
         }
         $this->position = 0;
     }
@@ -374,7 +374,7 @@ class MultiCallResultIterator implements \Iterator {
         ++$this->position;
     }
     public function valid() {
-        return isset($this->data[$this->position]);
+        return sizeof($this->data) > $this->position;
     }
 }
 

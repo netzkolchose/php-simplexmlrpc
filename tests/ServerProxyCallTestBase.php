@@ -81,10 +81,10 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         $res = $multicall();
         $this->assertEquals(
             array(
-                array("called test_string"),
-                array(NULL),
-                array(array('called test_list')),
-                array(array('int' => 123, 'list' => array(1, 2, 3)))
+                "called test_string",
+                NULL,
+                array('called test_list'),
+                array('int' => 123, 'list' => array(1, 2, 3))
             ),
             iterator_to_array($res));
     }
@@ -131,10 +131,10 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         } catch (\SimpleXmlRpc\Fault $e) {};
         $this->assertEquals(
             array(
-                array("called test_string"),
-                array(NULL),
-                array(array('called test_list')),
-                array(array('int' => 123, 'list' => array(1, 2, 3)))
+                "called test_string",
+                NULL,
+                array('called test_list'),
+                array('int' => 123, 'list' => array(1, 2, 3))
             ),
             $ar);
     }
@@ -156,12 +156,12 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals(
             array(
-                array("called test_string"),
-                array(NULL),
-                array(array('called test_list')),
-                array(array('int' => 123, 'list' => array(1, 2, 3))),
+                "called test_string",
+                NULL,
+                array('called test_list'),
+                array('int' => 123, 'list' => array(1, 2, 3)),
                 // fault here skipped
-                array(array('int' => 123, 'list' => array(1, 2, 3)))
+                array('int' => 123, 'list' => array(1, 2, 3))
             ),
             $ar);
         // low level iterator interface with automatic exception
@@ -183,10 +183,10 @@ class ServerProxyCallTestBase extends PHPUnit_Framework_TestCase
         $res = $multicall();
         $this->assertEquals(
             array(
-                array("called test_string"),
-                array(NULL),
-                array(array('called test_list')),
-                array(array('int' => 123, 'list' => array(1, 2, 3)))
+                "called test_string",
+                NULL,
+                array('called test_list'),
+                array('int' => 123, 'list' => array(1, 2, 3))
             ),
             $res->rawData());
     }
