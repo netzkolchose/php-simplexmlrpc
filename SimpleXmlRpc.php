@@ -250,10 +250,10 @@ class ServerProxy
         if ($this->_transport != "unix")
             $url .= ":".$this->_port;
         if ($this->ctx)
-            $sock = stream_socket_client(
+            $sock = @stream_socket_client(
                 $url, $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $this->ctx);
         else
-            $sock = stream_socket_client($url, $errno, $errstr, 30);
+            $sock = @stream_socket_client($url, $errno, $errstr, 30);
         if (!$sock) {
             throw new ConnectionError("could not connect to '" . $this->_url_original . "'");
         }
