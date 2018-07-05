@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "ext-xmlrpc": "*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": ">=2.0"
